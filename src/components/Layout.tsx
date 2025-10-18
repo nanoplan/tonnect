@@ -131,3 +131,19 @@ const Layout = ({ children }: LayoutProps) => {
 
 export default Layout;
 
+import { UserContext } from "@/context/UserContext";
+
+...
+
+return (
+  <UserContext.Provider value={{ userId }}>
+    <div className="min-h-screen pb-20">
+      <main className="container mx-auto px-4 py-6 max-w-lg">
+        {children}
+      </main>
+      ...
+    </div>
+  </UserContext.Provider>
+);
+
+
