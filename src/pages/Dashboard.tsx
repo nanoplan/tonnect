@@ -125,4 +125,11 @@ const Dashboard = () => {
 
 export default Dashboard;
 
+import { useUser } from "@/context/UserContext";
+
+export default function Dashboard() {
+  const { userId } = useUser();
+
+  return <div>UserID: {userId}</div>;
+}
 
