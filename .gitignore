@@ -31,3 +31,11 @@ supabase/temp
 *.njsproj
 *.sln
 *.sw?
+# Supabase Backend Configuration (Wajib diabaikan Vercel)
+supabase/migrations
+supabase/sql
+supabase/db
+supabase/temp
+
+# Kredensial (File ENV)
+.env
