@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Coins, TrendingUp } from "lucide-react";
 import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance, getTotalClaimed } from "@/lib/balance";
+import BalanceCard from "@/components/BalanceCard";
 
 const Dashboard = () => {
   const [totalSupply] = useState(10000000000); // 10 Billion
@@ -11,8 +12,8 @@ const Dashboard = () => {
   useEffect(() => {
     setUserBalance(getBalance());
     setClaimedTokens(getTotalClaimed());
-    
-    // Update balance and claimed tokens every second to reflect changes
+
+    // Update balance and claimed tokens every second
     const balanceInterval = setInterval(() => {
       setUserBalance(getBalance());
       setClaimedTokens(getTotalClaimed());
@@ -23,6 +24,8 @@ const Dashboard = () => {
 
   const remainingSupply = totalSupply - claimedTokens;
   const claimedPercentage = ((claimedTokens / totalSupply) * 100).toFixed(2);
+
+  const userId = "isi-dengan-user-id-supabase"; // nanti diganti dari session auth
 
   return (
     <div className="space-y-6">
@@ -54,7 +57,7 @@ const Dashboard = () => {
             <span className="text-muted-foreground">Claimed</span>
             <span className="text-primary font-bold">{claimedPercentage}%</span>
           </div>
-          
+
           <div className="relative h-4 bg-muted rounded-full overflow-hidden">
             <div
               className="absolute h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500 animate-glow-pulse"
@@ -79,33 +82,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* User Balance Card */}
-      <div className="cyber-card rounded-2xl p-6 space-y-4">
-        <h2 className="text-xl font-bold flex items-center gap-2">
-          <TrendingUp className="w-6 h-6 text-accent" />
-          Your Balance
-        </h2>
-        
-        <div className="text-center py-4">
-          <p className="text-5xl font-bold glow-text">{userBalance.toLocaleString()}</p>
-          <p className="text-lg text-muted-foreground mt-2">TONNECT</p>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 text-center pt-4 border-t border-primary/20">
-          <div>
-            <p className="text-2xl font-bold text-primary">+0</p>
-            <p className="text-xs text-muted-foreground">Today</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-secondary">+0</p>
-            <p className="text-xs text-muted-foreground">This Week</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-accent">-</p>
-            <p className="text-xs text-muted-foreground">Rank</p>
-          </div>
-        </div>
-      </div>
+      {/* User Balance from Supabase (BalanceCard) */}
+      <BalanceCard userId={userId} />
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-4">
@@ -146,15 +124,4 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-import BalanceCard from "@/components/BalanceCard";
-
-export default function DashboardPage() {
-  const userId = "isi-dengan-user-id-supabase"; // nanti diganti dari session auth
-
-  return (
-    <main className="p-6">
-      <BalanceCard userId={userId} />
-    </main>
-  );
-}
 
