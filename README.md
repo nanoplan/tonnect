@@ -1,73 +1,28 @@
-# Welcome to your Lovable project
+🎡 Tonnect Carnival Mining 💎
+Simple Mining Game: Luck and Strategy in the Carnival Mining Arena
 
-## Project info
+✨ About the Game
+Tonnect Carnival Mining is a simple game project that simulates the mining experience in a festive carnival-like environment. Players will interact with game machines that give out random prizes, where the goal is to collect as many prizes as possible with strategy and a little luck.
 
-**URL**: https://lovable.dev/projects/f0522839-d809-4a2d-937c-686ac3f1a487
+This project was created as a Proof-of-Concept (PoC) to test the feasibility of a fully probability-based reward system in a simulated environment.
+The project aims to build an initial prototype of a mobile game idea focused on idle mining mechanics.
 
-## How can I edit this code?
+🕹️ Game Features
+Carnival Attractions: Several different types of mining games/machines.
 
-There are several ways of editing your application.
+Reward System: Random mechanism to determine rewards (tokens, coins, or rare items).
 
-**Use Lovable**
+Simple Interface: Clean and easy-to-use display to monitor inventory and balance.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f0522839-d809-4a2d-937c-686ac3f1a487) and start prompting.
+Other Additional Features Leaderboard, spins, tasks, and more.
 
-Changes made via Lovable will be committed automatically to this repo.
+💻 Technology Used
+This project was built using:
 
-**Use your preferred IDE**
+Programming Languages: [Vite/ JavaScript / C# / etc.]
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Frameworks/Libraries: [Pygame / Node.js / Unity / etc.]
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f0522839-d809-4a2d-937c-686ac3f1a487) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+🚀 How to Run (Telegram Bot Installation)
+Follow these steps to run the Tonnect Carnival Mining project and integrate it as a bot on Telegram.
