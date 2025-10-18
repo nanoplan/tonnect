@@ -145,3 +145,16 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+import BalanceCard from "@/components/BalanceCard";
+
+export default function DashboardPage() {
+  const userId = "isi-dengan-user-id-supabase"; // nanti diganti dari session auth
+
+  return (
+    <main className="p-6">
+      <BalanceCard userId={userId} />
+    </main>
+  );
+}
+
