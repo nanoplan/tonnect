@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { User, Wallet, Settings, LogOut, Shield, Bell } from "lucide-react";
+import { Wallet, Settings } from "lucide-react";
 import { toast } from "sonner";
 import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance } from "@/lib/balance";
@@ -15,10 +15,6 @@ const Profile = () => {
 
   const handleConnectWallet = () => {
     toast.info("TON Wallet connection coming soon!");
-  };
-
-  const handleLogout = () => {
-    toast.success("Logged out successfully");
   };
 
   return (
@@ -101,41 +97,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Settings Menu */}
-      <div className="cyber-card rounded-2xl p-4 space-y-2">
-        <h2 className="text-lg font-bold px-2 mb-2">Settings</h2>
-        
-        <button className="w-full flex items-center gap-3 p-4 rounded-lg hover:bg-muted/50 transition-colors text-left">
-          <User className="w-5 h-5 text-primary" />
-          <span className="font-medium">Edit Profile</span>
-        </button>
-
-        <button className="w-full flex items-center gap-3 p-4 rounded-lg hover:bg-muted/50 transition-colors text-left">
-          <Bell className="w-5 h-5 text-primary" />
-          <span className="font-medium">Notifications</span>
-        </button>
-
-        <button className="w-full flex items-center gap-3 p-4 rounded-lg hover:bg-muted/50 transition-colors text-left">
-          <Shield className="w-5 h-5 text-primary" />
-          <span className="font-medium">Security</span>
-        </button>
-
-        <button className="w-full flex items-center gap-3 p-4 rounded-lg hover:bg-muted/50 transition-colors text-left">
-          <Settings className="w-5 h-5 text-primary" />
-          <span className="font-medium">App Settings</span>
-        </button>
-      </div>
-
-      {/* Logout Button */}
-      <Button
-        onClick={handleLogout}
-        variant="outline"
-        className="w-full h-12 border-2 border-destructive text-destructive hover:bg-destructive hover:text-white"
-      >
-        <LogOut className="w-4 h-4 mr-2" />
-        Logout
-      </Button>
-
       {/* Task Coming Soon */}
       <div className="cyber-card rounded-2xl p-6 text-center">
         <div className="w-16 h-16 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center">
@@ -151,3 +112,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
