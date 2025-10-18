@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Coins, TrendingUp } from "lucide-react";
 import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance, getTotalClaimed } from "@/lib/balance";
-import BalanceCard from "@/components/BalanceCard";
+import BalanceCard from "@/components/ui/BalanceCard";
+
 
 const Dashboard = () => {
   const [totalSupply] = useState(10000000000); // 10 Billion
