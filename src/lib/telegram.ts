@@ -1,11 +1,20 @@
-export function getTelegramUser() {
+export interface TelegramUser {
+  id: number;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+export function getTelegramUser(): TelegramUser | null {
   const tg = (window as any).Telegram?.WebApp;
-  if (!tg) return null;
+  if (!tg?.initDataUnsafe?.user) return null;
+
+  const u = tg.initDataUnsafe.user;
 
   return {
-    id: tg.initDataUnsafe?.user?.id,
-    username: tg.initDataUnsafe?.user?.username,
-    firstName: tg.initDataUnsafe?.user?.first_name,
-    lastName: tg.initDataUnsafe?.user?.last_name,
+    id: u.id,
+    username: u.username,
+    firstName: u.first_name,
+    lastName: u.last_name,
   };
 }
