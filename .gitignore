@@ -7,10 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies and Build Artifacts
 node_modules
 dist
 dist-ssr
-*.local
+.env 👈 GANTI DARI .env.local MENJADI .env
+.vercel
+out
+
+# Supabase Backend Configuration (FIX VERSEL DEPLOYMENT ISSUE)
+supabase/migrations/sql
+supabase/sql
+supabase/db
+supabase/temp
 
 # Editor directories and files
 .vscode/*
