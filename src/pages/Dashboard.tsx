@@ -8,7 +8,7 @@ import { useUser } from "@/context/UserContext";
 const Dashboard = () => {
   const { userId } = useUser();
 
-  const [totalSupply] = useState(10_000_000_000);
+  const [totalSupply] = useState(10_000_000_000); // 10 Billion
   const [claimedTokens, setClaimedTokens] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
 
@@ -16,12 +16,12 @@ const Dashboard = () => {
     setUserBalance(getBalance());
     setClaimedTokens(getTotalClaimed());
 
-    const balanceInterval = setInterval(() => {
+    const interval = setInterval(() => {
       setUserBalance(getBalance());
       setClaimedTokens(getTotalClaimed());
     }, 1000);
 
-    return () => clearInterval(balanceInterval);
+    return () => clearInterval(interval);
   }, []);
 
   const remainingSupply = totalSupply - claimedTokens;
@@ -29,6 +29,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex justify-center">
           <img
@@ -41,6 +42,7 @@ const Dashboard = () => {
         <p className="text-lg text-accent">Mining Carnival</p>
       </div>
 
+      {/* Total Supply */}
       <div className="cyber-card rounded-2xl p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold flex items-center gap-2">
@@ -80,8 +82,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <BalanceCard userId={userId || "unknown-user"} />
+      {/* Balance Card */}
+      <BalanceCard userId={userId || "guest"} />
 
+      {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-4">
         <a
           href="/mining"
@@ -99,6 +103,7 @@ const Dashboard = () => {
         </a>
       </div>
 
+      {/* Tasks & Store */}
       <div className="grid grid-cols-2 gap-4">
         <a
           href="/tasks"
@@ -118,3 +123,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
