@@ -8,7 +8,7 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -70,7 +70,5 @@ const Layout = ({ children }: LayoutProps) => {
       </div>
     </UserContext.Provider>
   );
-};
-
-export default Layout;
+}
 
