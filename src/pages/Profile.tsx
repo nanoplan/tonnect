@@ -1,24 +1,21 @@
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Wallet, Settings } from "lucide-react";
 import { toast } from "sonner";
 import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance } from "@/lib/balance";
-import { getTelegramUser } from "@/telegram";
 
 const Profile = () => {
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    const tgUser = getTelegramUser();
-    setUser(tgUser);
-  }, []);
+  const user = {
+    username: "CryptoMiner#4521",
+    email: "user@example.com",
+    joinDate: "January 2025",
+    walletConnected: false,
+    walletAddress: "",
+  };
 
   const handleConnectWallet = () => {
     toast.info("TON Wallet connection coming soon!");
   };
-
-  const fallbackUsername = "Guest#" + Math.floor(1000 + Math.random() * 9000);
 
   return (
     <div className="space-y-6">
@@ -38,17 +35,10 @@ const Profile = () => {
             />
             <div className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 rounded-full border-2 border-background" />
           </div>
-
-          <h2 className="text-2xl font-bold mb-1">
-            {user
-              ? user.username || `${user.firstName} ${user.lastName || ""}`
-              : fallbackUsername}
-          </h2>
-
-          <p className="text-sm text-muted-foreground">
-            {user ? `ID: ${user.id}` : "user@example.com"}
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">Member since January 2025</p>
+          
+          <h2 className="text-2xl font-bold mb-1">{user.username}</h2>
+          <p className="text-sm text-muted-foreground">{user.email}</p>
+          <p className="text-xs text-muted-foreground mt-2">Member since {user.joinDate}</p>
         </div>
       </div>
 
@@ -58,21 +48,38 @@ const Profile = () => {
           <Wallet className="w-5 h-5 text-primary" />
           TON Wallet
         </h2>
-
-        <div className="space-y-3">
-          <div className="p-4 bg-muted/50 rounded-lg border border-primary/20">
-            <p className="text-sm text-muted-foreground">
-              Connect your TON wallet to withdraw tokens and access Web3 features
-            </p>
+        
+        {user.walletConnected ? (
+          <div className="space-y-3">
+            <div className="p-4 bg-green-500/10 rounded-lg border border-green-500/30">
+              <p className="text-sm font-semibold text-green-400 mb-1">Connected</p>
+              <p className="text-xs text-muted-foreground font-mono truncate">
+                {user.walletAddress}
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full border-destructive text-destructive hover:bg-destructive hover:text-white"
+            >
+              Disconnect Wallet
+            </Button>
           </div>
-          <Button
-            onClick={handleConnectWallet}
-            className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
-          >
-            <Wallet className="w-4 h-4 mr-2" />
-            Connect TON Wallet
-          </Button>
-        </div>
+        ) : (
+          <div className="space-y-3">
+            <div className="p-4 bg-muted/50 rounded-lg border border-primary/20">
+              <p className="text-sm text-muted-foreground">
+                Connect your TON wallet to withdraw tokens and access Web3 features
+              </p>
+            </div>
+            <Button
+              onClick={handleConnectWallet}
+              className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+            >
+              <Wallet className="w-4 h-4 mr-2" />
+              Connect TON Wallet
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Account Stats */}
