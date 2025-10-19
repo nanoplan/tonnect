@@ -1,3 +1,4 @@
+// src/telegram.ts
 export interface TelegramUser {
   id: number;
   username?: string;
@@ -7,9 +8,11 @@ export interface TelegramUser {
 
 export function getTelegramUser(): TelegramUser | null {
   const tg = (window as any).Telegram?.WebApp;
-  if (!tg?.initDataUnsafe?.user) return null;
+  if (!tg) return null;
 
-  const u = tg.initDataUnsafe.user;
+  tg.ready(); // penting agar Telegram WebApp siap
+  const u = tg.initDataUnsafe?.user;
+  if (!u) return null;
 
   return {
     id: u.id,
