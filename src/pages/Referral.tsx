@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Users, Copy, Gift, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
+import { getTelegramUser } from "@/lib/telegram"; // pastikan ini ada
 
 const Referral = () => {
-  const [referralCode] = useState("TONNECT-XYZ123");
-  const referralLink = `https://tonnect.app/ref/${referralCode}`;
-  
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [referralLink, setReferralLink] = useState<string>("");
+
   const stats = {
     totalReferrals: 0,
     activeReferrals: 0,
@@ -16,9 +17,31 @@ const Referral = () => {
 
   const recentReferrals: { username: string; earned: number; status: string }[] = [];
 
+  useEffect(() => {
+    const tgUser = getTelegramUser();
+    const BOT_USERNAME = "nanoplan_bot"; // GANTI dengan username bot kamu
+
+    if (tgUser) {
+      const code = tgUser.username
+        ? tgUser.username
+        : `USER${tgUser.id}`; // fallback kalau username kosong
+      const link = `https://t.me/${BOT_USERNAME}?start=${tgUser.id}`;
+      setReferralCode(code);
+      setReferralLink(link);
+    } else {
+      // fallback kalau dibuka dari luar Telegram
+      setReferralCode("UNKNOWN");
+      setReferralLink("Please open from Telegram Mini App");
+    }
+  }, []);
+
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(referralLink);
-    toast.success("Referral link copied!");
+    if (referralLink.startsWith("https://t.me/")) {
+      navigator.clipboard.writeText(referralLink);
+      toast.success("Referral link copied!");
+    } else {
+      toast.error("Referral link unavailable outside Telegram");
+    }
   };
 
   return (
@@ -34,7 +57,6 @@ const Referral = () => {
           <Gift className="w-6 h-6 text-primary" />
           Referral Rewards
         </h2>
-        
         <div className="grid gap-3">
           <div className="flex items-start gap-3 p-3 bg-primary/10 rounded-lg border border-primary/30">
             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
@@ -45,7 +67,6 @@ const Referral = () => {
               <p className="text-sm text-muted-foreground">Get 100 TONNECT when friend signs up</p>
             </div>
           </div>
-
           <div className="flex items-start gap-3 p-3 bg-secondary/10 rounded-lg border border-secondary/30">
             <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
               <span className="text-lg font-bold">2</span>
@@ -61,15 +82,12 @@ const Referral = () => {
       {/* Referral Code */}
       <div className="cyber-card rounded-2xl p-6 space-y-4">
         <h2 className="text-lg font-bold">Your Referral Link</h2>
-        
+
         <div className="flex gap-2">
           <div className="flex-1 p-3 bg-muted rounded-lg border border-primary/30 overflow-hidden">
             <p className="text-sm truncate text-muted-foreground">{referralLink}</p>
           </div>
-          <Button
-            onClick={copyToClipboard}
-            className="flex-shrink-0 bg-primary hover:bg-primary/90"
-          >
+          <Button onClick={copyToClipboard} className="flex-shrink-0 bg-primary hover:bg-primary/90">
             <Copy className="w-4 h-4" />
           </Button>
         </div>
@@ -90,7 +108,6 @@ const Referral = () => {
           <p className="text-2xl font-bold">{stats.totalReferrals}</p>
           <p className="text-xs text-muted-foreground">Referrals</p>
         </div>
-
         <div className="cyber-card rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-5 h-5 text-accent" />
@@ -99,7 +116,6 @@ const Referral = () => {
           <p className="text-2xl font-bold text-accent">{stats.activeReferrals}</p>
           <p className="text-xs text-muted-foreground">Users</p>
         </div>
-
         <div className="cyber-card rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <Gift className="w-5 h-5 text-primary" />
@@ -108,7 +124,6 @@ const Referral = () => {
           <p className="text-2xl font-bold text-primary">{stats.totalEarned}</p>
           <p className="text-xs text-muted-foreground">TONNECT</p>
         </div>
-
         <div className="cyber-card rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-5 h-5 text-secondary" />
@@ -122,7 +137,7 @@ const Referral = () => {
       {/* Recent Referrals */}
       <div className="cyber-card rounded-2xl p-6 space-y-4">
         <h2 className="text-lg font-bold">Recent Referrals</h2>
-        
+
         {recentReferrals.length > 0 ? (
           <div className="space-y-2">
             {recentReferrals.map((ref, index) => (
