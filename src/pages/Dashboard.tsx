@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Coins, TrendingUp } from "lucide-react";
+import { Coins } from "lucide-react";
 import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance, getTotalClaimed } from "@/lib/balance";
 import BalanceCard from "@/components/ui/BalanceCard";
-
+import { useUser } from "@/context/UserContext"; // ✅ pindah ke atas
 
 const Dashboard = () => {
-  const [totalSupply] = useState(10000000000); // 10 Billion
+  const { userId } = useUser(); // ✅ langsung dipakai di sini
+
+  const [totalSupply] = useState(10_000_000_000); // 10 Billion
   const [claimedTokens, setClaimedTokens] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
 
@@ -14,7 +16,6 @@ const Dashboard = () => {
     setUserBalance(getBalance());
     setClaimedTokens(getTotalClaimed());
 
-    // Update balance and claimed tokens every second
     const balanceInterval = setInterval(() => {
       setUserBalance(getBalance());
       setClaimedTokens(getTotalClaimed());
@@ -25,8 +26,6 @@ const Dashboard = () => {
 
   const remainingSupply = totalSupply - claimedTokens;
   const claimedPercentage = ((claimedTokens / totalSupply) * 100).toFixed(2);
-
-  const userId = "isi-dengan-user-id-supabase"; // nanti diganti dari session auth
 
   return (
     <div className="space-y-6">
@@ -83,8 +82,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* User Balance from Supabase (BalanceCard) */}
-      <BalanceCard userId={userId} />
+      {/* User Balance */}
+      <BalanceCard userId={userId || "unknown-user"} />
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-4">
@@ -124,12 +123,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-import { useUser } from "@/context/UserContext";
-
-export default function Dashboard() {
-  const { userId } = useUser();
-
-  return <div>UserID: {userId}</div>;
-}
-
