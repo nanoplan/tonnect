@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Users, Copy, Gift, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
-import { getTelegramUser } from "@/lib/telegram"; // pastikan ini ada
+import { getTelegramUser } from "@/lib/telegram"; // pastikan file ini sudah benar
 
 const Referral = () => {
   const [referralCode, setReferralCode] = useState<string>("");
@@ -17,19 +17,20 @@ const Referral = () => {
 
   const recentReferrals: { username: string; earned: number; status: string }[] = [];
 
+  // ✅ Bagian yang sudah diperbaiki
   useEffect(() => {
     const tgUser = getTelegramUser();
-    const BOT_USERNAME = "nanoplan_bot"; // GANTI dengan username bot kamu
+    console.log("DEBUG Telegram User =>", tgUser);
+    console.log("Raw initDataUnsafe =>", (window as any).Telegram?.WebApp?.initDataUnsafe);
+
+    const BOT_USERNAME = "Tonnect_app_bot"; // ← gunakan nama bot kamu TANPA '@'
 
     if (tgUser) {
-      const code = tgUser.username
-        ? tgUser.username
-        : `USER${tgUser.id}`; // fallback kalau username kosong
+      const code = tgUser.username ? tgUser.username : `USER${tgUser.id}`;
       const link = `https://t.me/${BOT_USERNAME}?start=${tgUser.id}`;
       setReferralCode(code);
       setReferralLink(link);
     } else {
-      // fallback kalau dibuka dari luar Telegram
       setReferralCode("UNKNOWN");
       setReferralLink("Please open from Telegram Mini App");
     }
@@ -64,7 +65,9 @@ const Referral = () => {
             </div>
             <div>
               <p className="font-semibold">One-Time Bonus</p>
-              <p className="text-sm text-muted-foreground">Get 100 TONNECT when friend signs up</p>
+              <p className="text-sm text-muted-foreground">
+                Get 100 TONNECT when friend signs up
+              </p>
             </div>
           </div>
           <div className="flex items-start gap-3 p-3 bg-secondary/10 rounded-lg border border-secondary/30">
@@ -73,7 +76,9 @@ const Referral = () => {
             </div>
             <div>
               <p className="font-semibold">Passive Income</p>
-              <p className="text-sm text-muted-foreground">Earn 5% from all their mining forever</p>
+              <p className="text-sm text-muted-foreground">
+                Earn 5% from all their mining forever
+              </p>
             </div>
           </div>
         </div>
@@ -147,7 +152,9 @@ const Referral = () => {
               >
                 <div>
                   <p className="font-semibold">{ref.username}</p>
-                  <p className="text-xs text-muted-foreground">+{ref.earned} TONNECT earned</p>
+                  <p className="text-xs text-muted-foreground">
+                    +{ref.earned} TONNECT earned
+                  </p>
                 </div>
                 <span
                   className={`text-xs px-2 py-1 rounded-full ${
