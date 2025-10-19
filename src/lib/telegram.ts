@@ -1,4 +1,3 @@
-// src/telegram.ts
 export interface TelegramUser {
   id: number;
   username?: string;
