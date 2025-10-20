@@ -2,21 +2,15 @@ import { supabase } from "./supabase";
 import { getTelegramUser } from "./telegram";
 
 export async function signInWithTelegram() {
+  const user = getTelegramUser();
+  console.log("🔹 Telegram user detected:", user);
+
+  if (!user) {
+    console.error("❌ No Telegram user found");
+    return null;
+  }
+
   try {
-    const user = getTelegramUser();
-
-    if (!user) {
-      console.warn("⚠️ Telegram WebApp not detected. Using guest user.");
-      return { id: "guest", username: "guest_user" };
-    }
-
-    // Pastikan Supabase terdefinisi (env variabel di Vercel)
-    if (!supabase) {
-      console.error("❌ Supabase client not initialized.");
-      return { id: user.id, username: user.username ?? "unknown_user" };
-    }
-
-    // Simpan atau update user di tabel Supabase
     const { data, error } = await supabase
       .from("profiles")
       .upsert({ id: user.id, username: user.username })
@@ -24,9 +18,11 @@ export async function signInWithTelegram() {
       .single();
 
     if (error) throw error;
+
+    console.log("✅ Supabase profile synced:", data);
     return data;
   } catch (err) {
-    console.error("signInWithTelegram() error:", err);
-    return { id: "guest", username: "guest_user" };
+    console.error("❌ Supabase error:", err);
+    return null;
   }
 }
