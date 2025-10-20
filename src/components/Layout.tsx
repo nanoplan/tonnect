@@ -10,33 +10,24 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
-  const [userId, setUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string>("guest");
 
   useEffect(() => {
     async function init() {
       try {
         const profile = await signInWithTelegram();
         if (profile?.id) {
-          setUserId(profile.id);
+          setUserId(String(profile.id));
         } else {
           console.warn("⚠️ Telegram user not detected. Fallback to guest mode.");
-          setUserId("guest");
         }
       } catch (err) {
         console.error("Telegram init failed:", err);
-        setUserId("guest");
-      } finally {
-        setLoading(false);
       }
     }
 
     init();
   }, []);
-
-  if (loading) {
-    return <div className="p-6 text-center text-white">⏳ Initializing Tonnect...</div>;
-  }
 
   const navItems = [
     { path: "/", icon: Home, label: "Home" },
