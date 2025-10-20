@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Coins } from "lucide-react";
 import { getBalance, getTotalClaimed } from "@/lib/balance";
-import balancecard from "@/components/ui/balancecard";
+import BalanceCard from "@/components/BalanceCard";
 import { useUser } from "@/context/UserContext";
 
 export default function Dashboard() {
