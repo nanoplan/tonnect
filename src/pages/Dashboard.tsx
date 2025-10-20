@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { Coins } from "lucide-react";
-import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance, getTotalClaimed } from "@/lib/balance";
 import BalanceCard from "@/components/ui/BalanceCard";
 import { useUser } from "@/context/UserContext";
 
 export default function Dashboard() {
-  const [totalSupply] = useState(10000000000); // 10 Billion
+  const [totalSupply] = useState(10_000_000_000); // 10 Billion
   const [claimedTokens, setClaimedTokens] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
   const { userId } = useUser();
@@ -31,8 +30,9 @@ export default function Dashboard() {
       {/* Header with Logo */}
       <div className="text-center space-y-4">
         <div className="flex justify-center">
+          {/* Logo dari folder public/ */}
           <img
-            src={tonnectLogo}
+            src="/tonnect-logo.jpeg"
             alt="TONNECT Logo"
             className="w-24 h-24 rounded-full animate-glow-pulse"
           />
@@ -125,3 +125,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
