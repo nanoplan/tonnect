@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import { Coins, TrendingUp } from "lucide-react";
+import { Coins } from "lucide-react";
 import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance, getTotalClaimed } from "@/lib/balance";
 import BalanceCard from "@/components/ui/BalanceCard";
+import { useUser } from "@/context/UserContext";
 
-
-const Dashboard = () => {
+export default function Dashboard() {
   const [totalSupply] = useState(10000000000); // 10 Billion
   const [claimedTokens, setClaimedTokens] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
+  const { userId } = useUser();
 
   useEffect(() => {
     setUserBalance(getBalance());
     setClaimedTokens(getTotalClaimed());
 
-    // Update balance and claimed tokens every second
     const balanceInterval = setInterval(() => {
       setUserBalance(getBalance());
       setClaimedTokens(getTotalClaimed());
@@ -25,8 +25,6 @@ const Dashboard = () => {
 
   const remainingSupply = totalSupply - claimedTokens;
   const claimedPercentage = ((claimedTokens / totalSupply) * 100).toFixed(2);
-
-  const userId = "isi-dengan-user-id-supabase"; // nanti diganti dari session auth
 
   return (
     <div className="space-y-6">
@@ -119,17 +117,11 @@ const Dashboard = () => {
           <p className="text-xs text-muted-foreground mt-1">Coming Soon</p>
         </div>
       </div>
+
+      {/* Debug user */}
+      <div className="text-xs text-muted-foreground text-center">
+        UserID: {userId}
+      </div>
     </div>
   );
-};
-
-export default Dashboard;
-
-import { useUser } from "@/context/UserContext";
-
-export default function Dashboard() {
-  const { userId } = useUser();
-
-  return <div>UserID: {userId}</div>;
 }
-
