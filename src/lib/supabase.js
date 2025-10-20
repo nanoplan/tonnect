@@ -1,15 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Kredensial dibaca dari Environment Variables yang Anda masukkan di Vercel.
-// Pastikan variabel ini sudah dimasukkan ke Vercel:
-// NEXT_PUBLIC_SUPABASE_URL
-// NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  // Pesan error jika environment variables belum disetel
-  console.error("Supabase environment variables not set. Please check Vercel settings.");
+  console.error("Supabase environment variables not set.");
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
