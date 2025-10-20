@@ -8,20 +8,34 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function init() {
-      const profile = await signInWithTelegram();
-      setUserId(profile?.id ?? null);
+      try {
+        const profile = await signInWithTelegram();
+        if (profile?.id) {
+          setUserId(profile.id);
+        } else {
+          console.warn("⚠️ Telegram user not detected. Fallback to guest mode.");
+          setUserId("guest");
+        }
+      } catch (err) {
+        console.error("Telegram init failed:", err);
+        setUserId("guest");
+      } finally {
+        setLoading(false);
+      }
     }
+
     init();
   }, []);
 
-  if (!userId) {
-    return <div className="p-6 text-center">Loading Telegram user...</div>;
+  if (loading) {
+    return <div className="p-6 text-center text-white">⏳ Initializing Tonnect...</div>;
   }
 
   const navItems = [
@@ -35,7 +49,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <UserContext.Provider value={{ userId }}>
-      <div className="min-h-screen pb-20">
+      <div className="min-h-screen pb-20 bg-background text-foreground">
         <main className="container mx-auto px-4 py-6 max-w-lg">
           {children}
         </main>
@@ -70,6 +84,4 @@ const Layout = ({ children }: LayoutProps) => {
       </div>
     </UserContext.Provider>
   );
-};
-
-export default Layout;
+}
