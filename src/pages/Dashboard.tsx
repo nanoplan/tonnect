@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
-import { Coins } from "lucide-react";
+import { Coins, TrendingUp } from "lucide-react";
+import tonnectLogo from "@/assets/tonnect-logo.jpeg";
 import { getBalance, getTotalClaimed } from "@/lib/balance";
-import BalanceCard from "@/components/BalanceCard";
-import { useUser } from "@/context/UserContext";
 
-export default function Dashboard() {
-  const [totalSupply] = useState(10_000_000_000); // 10 Billion
+const Dashboard = () => {
+  const [totalSupply] = useState(10000000000); // 10 Billion
   const [claimedTokens, setClaimedTokens] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
-  const { userId } = useUser();
 
   useEffect(() => {
     setUserBalance(getBalance());
     setClaimedTokens(getTotalClaimed());
-
+    
+    // Update balance and claimed tokens every second to reflect changes
     const balanceInterval = setInterval(() => {
       setUserBalance(getBalance());
       setClaimedTokens(getTotalClaimed());
@@ -30,9 +29,8 @@ export default function Dashboard() {
       {/* Header with Logo */}
       <div className="text-center space-y-4">
         <div className="flex justify-center">
-          {/* Logo dari folder public/ */}
           <img
-            src="/tonnect-logo.jpeg"
+            src={tonnectLogo}
             alt="TONNECT Logo"
             className="w-24 h-24 rounded-full animate-glow-pulse"
           />
@@ -56,7 +54,7 @@ export default function Dashboard() {
             <span className="text-muted-foreground">Claimed</span>
             <span className="text-primary font-bold">{claimedPercentage}%</span>
           </div>
-
+          
           <div className="relative h-4 bg-muted rounded-full overflow-hidden">
             <div
               className="absolute h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500 animate-glow-pulse"
@@ -81,8 +79,33 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* User Balance from Supabase (BalanceCard) */}
-      <BalanceCard userId={userId} />
+      {/* User Balance Card */}
+      <div className="cyber-card rounded-2xl p-6 space-y-4">
+        <h2 className="text-xl font-bold flex items-center gap-2">
+          <TrendingUp className="w-6 h-6 text-accent" />
+          Your Balance
+        </h2>
+        
+        <div className="text-center py-4">
+          <p className="text-5xl font-bold glow-text">{userBalance.toLocaleString()}</p>
+          <p className="text-lg text-muted-foreground mt-2">TONNECT</p>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 text-center pt-4 border-t border-primary/20">
+          <div>
+            <p className="text-2xl font-bold text-primary">+0</p>
+            <p className="text-xs text-muted-foreground">Today</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-secondary">+0</p>
+            <p className="text-xs text-muted-foreground">This Week</p>
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-accent">-</p>
+            <p className="text-xs text-muted-foreground">Rank</p>
+          </div>
+        </div>
+      </div>
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-4">
@@ -117,12 +140,8 @@ export default function Dashboard() {
           <p className="text-xs text-muted-foreground mt-1">Coming Soon</p>
         </div>
       </div>
-
-      {/* Debug user */}
-      <div className="text-xs text-muted-foreground text-center">
-        UserID: {userId}
-      </div>
     </div>
   );
-}
+};
 
+export default Dashboard;
