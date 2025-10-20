@@ -1,35 +1,28 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "./supabase";
 import { getTelegramUser } from "./telegram";
 
 export async function signInWithTelegram() {
+  const user = getTelegramUser();
+  console.log("🔹 Telegram user detected:", user);
+
+  if (!user) {
+    console.error("❌ No Telegram user found");
+    return null;
+  }
+
   try {
-    const user = getTelegramUser();
-    // jika tidak ada Telegram (webapp), langsung return null (non-blocking)
-    if (!user) return null;
-
-    // jika id bukan numeric (mis. "guest"), jangan panggil Supabase — return user sebagai guest
-    if (!/^\d+$/.test(String(user.id))) {
-      return { ...user, guest: true };
-    }
-
-    // jika numeric, lakukan upsert (sesuaikan nama kolom di DB kamu: telegram_id / id)
-    const payload = { telegram_id: Number(user.id), username: user.username };
-
     const { data, error } = await supabase
       .from("profiles")
-      .upsert(payload, { onConflict: ["telegram_id"] })
+      .upsert({ id: user.id, username: user.username })
       .select()
       .single();
 
-    if (error) {
-      console.warn("Supabase upsert warning:", error);
-      // jangan throw — return user minimal supaya UI tetap jalan
-      return { ...user, guest: false };
-    }
+    if (error) throw error;
 
-    return data ?? { ...user, guest: false };
+    console.log("✅ Supabase profile synced:", data);
+    return data;
   } catch (err) {
-    console.error("signInWithTelegram error:", err);
-    return null; // jangan throw
+    console.error("❌ Supabase error:", err);
+    return null;
   }
 }
