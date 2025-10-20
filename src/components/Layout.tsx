@@ -10,7 +10,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
-  const [userId, setUserId] = useState<string>("guest");
+  const [userId, setUserId] = useState<string>("guest"); // langsung default guest
 
   useEffect(() => {
     async function init() {
@@ -18,11 +18,12 @@ export default function Layout({ children }: LayoutProps) {
         const profile = await signInWithTelegram();
         if (profile?.id) {
           setUserId(String(profile.id));
+          console.log("🔹 Telegram user detected:", profile);
         } else {
-          console.warn("⚠️ Telegram user not detected. Fallback to guest mode.");
+          console.warn("⚠️ Telegram user not detected, fallback to guest.");
         }
       } catch (err) {
-        console.error("Telegram init failed:", err);
+        console.error("❌ Telegram init failed:", err);
       }
     }
 
@@ -41,10 +42,12 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <UserContext.Provider value={{ userId }}>
       <div className="min-h-screen pb-20 bg-background text-foreground">
+        {/* Main Content */}
         <main className="container mx-auto px-4 py-6 max-w-lg">
           {children}
         </main>
 
+        {/* Bottom Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-lg border-t border-primary/30 z-50">
           <div className="container mx-auto max-w-lg">
             <div className="grid grid-cols-6 gap-1 py-2">
