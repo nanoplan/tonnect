@@ -1,22 +1,8 @@
-export interface TelegramUser {
-  id: number;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-}
+export function getTelegramUser() {
+  const tg = window.Telegram?.WebApp;
+  if (tg?.initDataUnsafe?.user) return tg.initDataUnsafe.user;
 
-export function getTelegramUser(): TelegramUser | null {
-  const tg = (window as any).Telegram?.WebApp;
-  if (!tg) return null;
-
-  tg.ready(); // penting agar Telegram WebApp siap
-  const u = tg.initDataUnsafe?.user;
-  if (!u) return null;
-
-  return {
-    id: u.id,
-    username: u.username,
-    firstName: u.first_name,
-    lastName: u.last_name,
-  };
+  // fallback saat testing di browser
+  console.warn("⚠️ Telegram user not detected. Fallback to guest mode.");
+  return { id: "guest", username: "guest_user" };
 }
